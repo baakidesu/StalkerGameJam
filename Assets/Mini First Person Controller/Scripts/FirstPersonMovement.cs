@@ -1,12 +1,8 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityHFSM;
-using System.Collections;
-using System.Collections.Generic;
 
-public class WalkState : StateBase
+public class FirstPersonMovement : MonoBehaviour
 {
-    private StalkerHFSM hfsm;
-    
     public float speed = 5;
 
     [Header("Running")]
@@ -14,12 +10,6 @@ public class WalkState : StateBase
     public bool IsRunning { get; private set; }
     public float runSpeed = 9;
     public KeyCode runningKey = KeyCode.LeftShift;
-
-    public WalkState(StalkerHFSM context, bool needExitTime, bool isGhostState = false) : base(needExitTime, isGhostState)
-    {
-        hfsm = context;
-    }
-    
 
     Rigidbody rigidbody;
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
@@ -49,15 +39,6 @@ public class WalkState : StateBase
         Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
 
         // Apply movement.
-        rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.linearVelocity.y, targetVelocity.y);
-    
-    void OnEnter()
-    {
-        
-    }
-
-    void OnLogic()
-    {
-        
+        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
     }
 }
