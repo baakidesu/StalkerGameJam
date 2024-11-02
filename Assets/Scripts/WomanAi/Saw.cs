@@ -19,14 +19,17 @@ public class Saw : MonoBehaviour
     private GameObject[] dotsToGo;
     private bool calculateDistance = true;
     private Vector3 distanceBetweenSawAndFirst;
+    public Vector3 lookBackPoint = new Vector3(99999, 99999, 99999);
 
     private int distanceCounter;
     private bool forward;
+    public bool isLookingBack;
 
     public bool canTurn = false;
 
     void Start()
     {
+        lookBackPoint = new Vector3(99999, 99999, 99999);
         dotsToGo = new GameObject[transform.childCount];
         for (int i = 0; i < dotsToGo.Length; i++)
         {
@@ -38,7 +41,7 @@ public class Saw : MonoBehaviour
     void FixedUpdate()
     {
         GoToDots();
-        if(canTurn)
+        if (canTurn)
         {
             Debug.Log("true");
         }
@@ -48,7 +51,7 @@ public class Saw : MonoBehaviour
         }
     }
 
-    void GoToDots()
+    public void GoToDots()
     {
         if (calculateDistance)
         {
@@ -57,6 +60,7 @@ public class Saw : MonoBehaviour
             if (canTurn)
             {
                 Debug.LogError(RandomPoint());
+                lookBackPoint=RandomPoint();
             }
         }
 
@@ -65,13 +69,12 @@ public class Saw : MonoBehaviour
 
         Vector3 RandomPoint()
         {
-            Vector3 noktaA= transform.position;
+            Vector3 noktaA = transform.position;
             Vector3 noktaB = dotsToGo[distanceCounter].transform.position;
-            float randomX = UnityEngine.Random.Range(Mathf.Min(noktaA.x, noktaB.x), Mathf.Max(noktaA.x, noktaB.x));
-            float randomY = UnityEngine.Random.Range(Mathf.Min(noktaA.y, noktaB.y), Mathf.Max(noktaA.y, noktaB.y));
-            float randomZ = UnityEngine.Random.Range(Mathf.Min(noktaA.z, noktaB.z), Mathf.Max(noktaA.z, noktaB.z));
 
-            return new Vector3(randomX, randomY, randomZ);
+            float t = UnityEngine.Random.Range(0f, 1f);
+
+            return Vector3.Lerp(noktaA, noktaB, t);
         }
         if (distance < 0.5f)
         {
@@ -130,7 +133,7 @@ public class Saw : MonoBehaviour
 
 class SawEditor : Editor
 {
-    private int PointCount = 1;  
+    private int PointCount = 1;
 
     public override void OnInspectorGUI()
     {
