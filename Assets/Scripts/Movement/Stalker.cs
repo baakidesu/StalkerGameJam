@@ -17,9 +17,11 @@ public class Stalker : MonoBehaviour
     public float smoothTime = 0.125f;
     private Vector3 camDif;
 
+    public Vector3 camRot = new Vector3(32.8f, 0f, 0f);
 
 
-    void Start()
+
+    void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         camDif = camera.transform.position - transform.position;
@@ -54,11 +56,16 @@ public class Stalker : MonoBehaviour
     void CamPositioner()
     {
         Vector3 desiredPosition = transform.position + camDif;
-
         Vector3 smoothedPosition = Vector3.Lerp(camera.transform.position, desiredPosition, smoothTime);
         camera.transform.position = smoothedPosition;
 
-        camera.transform.LookAt(transform);
+        camera.transform.rotation = Quaternion.Euler(camRot); 
+    }
+
+    void Hide()
+    {
+        //transform.position = 
+        //transform.position = 
     }
 
 }

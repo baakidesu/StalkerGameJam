@@ -10,6 +10,7 @@ TagManager:
   - FalsePoint
   - nokta
   - PauseMenu
+  - HideLocation
   layers:
   - Default
   - TransparentFX
