@@ -1,16 +1,12 @@
 using UnityEngine;
+using UnityHFSM;
 
-public class LoseState : MonoBehaviour
+public class LoseState : StateBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private StalkerHFSM _stalkerHFSM;
 
-    // Update is called once per frame
-    void Update()
+    public LoseState(StalkerHFSM context,bool needsExitTime, bool isGhostState = false) : base(needsExitTime, isGhostState)
     {
-        
+        _stalkerHFSM = context;
     }
 }

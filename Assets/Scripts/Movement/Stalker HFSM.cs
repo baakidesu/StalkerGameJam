@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityHFSM;
 using System.Collections;
@@ -5,69 +6,45 @@ using System.Collections.Generic;
 
 public class StalkerHFSM : MonoBehaviour
 {
-    #region Private
 
-    private Rigidbody rigidbody;
-    private Vector3 camDif;
+    private StateMachine hfsm;
 
-    #endregion
-
-    #region Public
-
-    public float speed = 5;
-
-    [Header("Running")] 
-    public bool canRun = true;
-    public bool IsRunning { get; private set; }
-    public float runSpeed = 9;
-    public KeyCode runningKey = KeyCode.LeftShift;
-
-    public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
-
-    [Header("Camera")] 
-    public GameObject camera;
-    public float smoothTime = 0.125f;
-
-    #endregion
-
-
-    void Awake()
+    private string _triggerHide = "moveToHide";
+    private string _triggerLose = "lostGame";
+    private string _triggerWalk = "Walk";
+     void Start()
     {
-        if (camera == null)
-        {
-            camera = Camera.main.gameObject;
-        }
+        hfsm = new StateMachine();
+        //todo
+        hfsm.AddState("Hide", new HideState(this,false));
+        hfsm.AddState("Lose", new LoseState(this,false));
+        hfsm.AddState("Walk", new WalkState(this,false));
         
-        camDif = camera.transform.position - transform.position;
+        hfsm.AddTriggerTransition(_triggerHide, "Walk", "Hide");
+        hfsm.AddTriggerTransition(_triggerWalk, "Hide", "Walk");
+        hfsm.AddTriggerTransitionFromAny(_triggerLose, "Lose");
         
-        rigidbody = GetComponent<Rigidbody>();
+        hfsm.SetStartState("Walk");
+        
+        hfsm.Init();
         
     }
-
-    void FixedUpdate()
+     
+    void Update()
     {
-        // Update IsRunning from input.
-        IsRunning = canRun && Input.GetKey(runningKey);
-
-        // Get targetMovingSpeed.
-        float targetMovingSpeed = IsRunning ? runSpeed : speed;
-        if (speedOverrides.Count > 0)
-        {
-            targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
-        }
-
-        // Get targetVelocity from input.
-        Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed,
-            Input.GetAxis("Vertical") * targetMovingSpeed);
-
-        // Apply movement.
-        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+        hfsm.OnLogic();
     }
 
-    void CamPositioner()
+    public void TriggerLose()
     {
-       
+        hfsm.Trigger(_triggerLose);
     }
-    
-    
+    public void TriggerWalk()
+    {
+        hfsm.Trigger(_triggerWalk);
+    }
+    public void TriggerHide()
+    {
+        hfsm.Trigger(_triggerHide);
+    }
 }
