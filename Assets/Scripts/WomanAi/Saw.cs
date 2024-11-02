@@ -1,17 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using System.Drawing;
-
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using System;
-
-
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 public class Saw : MonoBehaviour
@@ -24,23 +17,42 @@ public class Saw : MonoBehaviour
     private int distanceCounter;
     private bool forward;
     public bool isLookingBack;
+    private bool isPaused;
+    private float pauseDuration;
+    public float lookBackAmount;
 
     public bool canTurn = false;
 
     void Start()
     {
+        lookBackAmount = 4f;
         lookBackPoint = new Vector3(99999, 99999, 99999);
-        dotsToGo = new GameObject[transform.childCount];
-        for (int i = 0; i < dotsToGo.Length; i++)
+
+        // Sadece "TruePoint" ve "FalsePoint" tag'li çocukları al
+        dotsToGo = transform.Cast<Transform>()
+            .Where(child => child.CompareTag("TruePoint") || child.CompareTag("FalsePoint"))
+            .Select(child => child.gameObject)
+            .ToArray();
+
+        // dotsToGo dizisini başlangıçta parent objeden ayır
+        foreach (var dot in dotsToGo)
         {
-            dotsToGo[i] = transform.GetChild(0).gameObject;
-            dotsToGo[i].transform.SetParent(transform.parent);
+            dot.transform.SetParent(transform.parent);
         }
     }
 
     void FixedUpdate()
     {
-        GoToDots();
+        if (isLookingBack && !isPaused)
+        {
+            StartCoroutine(PauseMovement(lookBackAmount));
+        }
+
+        if (!isPaused)
+        {
+            GoToDots();
+        }
+
         if (canTurn)
         {
             Debug.Log("true");
@@ -49,6 +61,14 @@ public class Saw : MonoBehaviour
         {
             Debug.Log("false");
         }
+    }
+
+    IEnumerator PauseMovement(float duration)
+    {
+        isPaused = true;
+        pauseDuration = duration;
+        yield return new WaitForSeconds(duration);
+        isPaused = false;
     }
 
     public void GoToDots()
@@ -60,12 +80,15 @@ public class Saw : MonoBehaviour
             if (canTurn)
             {
                 Debug.LogError(RandomPoint());
-                lookBackPoint=RandomPoint();
+                lookBackPoint = RandomPoint();
             }
         }
 
         float distance = Vector3.Distance(transform.position, dotsToGo[distanceCounter].transform.position);
         transform.position += distanceBetweenSawAndFirst * Time.deltaTime * 10;
+
+        // Make the saw look at the target point
+        transform.LookAt(dotsToGo[distanceCounter].transform.position);
 
         Vector3 RandomPoint()
         {
@@ -76,6 +99,7 @@ public class Saw : MonoBehaviour
 
             return Vector3.Lerp(noktaA, noktaB, t);
         }
+
         if (distance < 0.5f)
         {
             calculateDistance = true;
@@ -112,16 +136,21 @@ public class Saw : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Gizmos.color = UnityEngine.Color.red;
-            Gizmos.DrawSphere(transform.GetChild(i).position, 1);
-        }
+        // Sadece "TruePoint" ve "FalsePoint" tag'li çocukları çiz
+        var filteredChildren = transform.Cast<Transform>()
+            .Where(child => child.CompareTag("TruePoint") || child.CompareTag("FalsePoint"))
+            .ToArray();
 
-        for (int i = 0; i < transform.childCount - 1; i++)
+        for (int i = 0; i < filteredChildren.Length; i++)
         {
-            Gizmos.color = UnityEngine.Color.blue;
-            Gizmos.DrawLine(transform.GetChild(i).transform.position, transform.GetChild(i + 1).transform.position);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(filteredChildren[i].position, 1);
+
+            if (i < filteredChildren.Length - 1)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(filteredChildren[i].transform.position, filteredChildren[i + 1].transform.position);
+            }
         }
     }
 #endif

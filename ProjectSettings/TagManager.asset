@@ -6,11 +6,11 @@ TagManager:
   tags:
   - HidePlace
   - Woman
-  - TruePoint
-  - FalsePoint
   - nokta
   - PauseMenu
   - HideLocation
+  - TruePoint
+  - FalsePoint
   layers:
   - Default
   - TransparentFX

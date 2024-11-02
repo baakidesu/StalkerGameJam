@@ -30,12 +30,15 @@ public class GameManager : MonoBehaviour
             if (!woman.active)
             {
                 woman.SetActive(true);
-                isLookingBack = true;
+                isLookingBack=true;
 
             }
             else
             {
-                Instantiate(womanBehind, woman.transform.position, woman.transform.rotation);
+                Quaternion newRotation = Quaternion.Euler(woman.transform.rotation.eulerAngles.x,
+                                                         woman.transform.rotation.eulerAngles.y + 180f,
+                                                         woman.transform.rotation.eulerAngles.z);
+                Instantiate(womanBehind, woman.transform.position, newRotation);
                 woman.SetActive(false);
                 isLookingBack = !isLookingBack;
             }
