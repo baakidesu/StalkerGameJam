@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Drawing;
 
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using System;
+
 
 
 #if UNITY_EDITOR
@@ -52,11 +54,25 @@ public class Saw : MonoBehaviour
         {
             distanceBetweenSawAndFirst = (dotsToGo[distanceCounter].transform.position - transform.position).normalized;
             calculateDistance = false;
+            if (canTurn)
+            {
+                Debug.LogError(RandomPoint());
+            }
         }
 
         float distance = Vector3.Distance(transform.position, dotsToGo[distanceCounter].transform.position);
         transform.position += distanceBetweenSawAndFirst * Time.deltaTime * 10;
 
+        Vector3 RandomPoint()
+        {
+            Vector3 noktaA= transform.position;
+            Vector3 noktaB = dotsToGo[distanceCounter].transform.position;
+            float randomX = UnityEngine.Random.Range(Mathf.Min(noktaA.x, noktaB.x), Mathf.Max(noktaA.x, noktaB.x));
+            float randomY = UnityEngine.Random.Range(Mathf.Min(noktaA.y, noktaB.y), Mathf.Max(noktaA.y, noktaB.y));
+            float randomZ = UnityEngine.Random.Range(Mathf.Min(noktaA.z, noktaB.z), Mathf.Max(noktaA.z, noktaB.z));
+
+            return new Vector3(randomX, randomY, randomZ);
+        }
         if (distance < 0.5f)
         {
             calculateDistance = true;
@@ -96,9 +112,7 @@ public class Saw : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             Gizmos.color = UnityEngine.Color.red;
-            Gizmos.DrawSphere(transform.GetChild(i).position,
-
- 1);
+            Gizmos.DrawSphere(transform.GetChild(i).position, 1);
         }
 
         for (int i = 0; i < transform.childCount - 1; i++)
