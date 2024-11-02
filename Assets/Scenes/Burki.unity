@@ -15170,7 +15170,7 @@ GameObject:
   - component: {fileID: 1340730332}
   m_Layer: 0
   m_Name: HideLocation
-  m_TagString: Untagged
+  m_TagString: HideLocation
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15184,7 +15184,7 @@ Transform:
   m_GameObject: {fileID: 1340730331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.805, y: 0, z: -0.322}
+  m_LocalPosition: {x: -0.805, y: 0, z: 0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15201,7 +15201,6 @@ GameObject:
   - component: {fileID: 1636178958}
   - component: {fileID: 1636178957}
   - component: {fileID: 1636178956}
-  - component: {fileID: 1636178955}
   - component: {fileID: 1636178959}
   - component: {fileID: 1636178960}
   m_Layer: 0
@@ -15211,27 +15210,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1636178955
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636178954}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1636178956
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15319,8 +15297,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9996176, y: 1, z: 1.7790567}
-  m_Center: {x: -0.49479127, y: 0, z: -0.38952833}
+  m_Size: {x: 6.0047674, y: 1, z: 3.4961002}
+  m_Center: {x: -2.4973664, y: 0, z: -0.17406404}
 --- !u!114 &1636178960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15350,6 +15328,7 @@ GameObject:
   - component: {fileID: 1793107888}
   - component: {fileID: 1793107892}
   - component: {fileID: 1793107893}
+  - component: {fileID: 1793107894}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -15489,6 +15468,20 @@ MonoBehaviour:
   camera: {fileID: 963194225}
   smoothTime: 0.125
   camRot: {x: 32.8, y: 0, z: 0}
+--- !u!114 &1793107894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793107886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db8383ec1a11db4c9e21aa40d084eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closestHidingSpot: {x: 0, y: 0, z: 0}
+  canHide: 0
 --- !u!1 &2006433130
 GameObject:
   m_ObjectHideFlags: 0

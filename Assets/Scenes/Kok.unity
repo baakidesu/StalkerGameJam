@@ -294,7 +294,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8714818371405311416, guid: 07dce83dc1f76634a9a9c680d39c47d1, type: 3}
+  - {fileID: -876546973899608171, guid: 6ba093341f504be48b15ca968845bef4, type: 3}
   - {fileID: 1322683657088892605, guid: 07dce83dc1f76634a9a9c680d39c47d1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -3148,6 +3148,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lamp2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4731856746093538112, guid: e79b3074ecd2f6a41a8be0e298a80816, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 6ba093341f504be48b15ca968845bef4, type: 3}
     - target: {fileID: 8983491813025327246, guid: e79b3074ecd2f6a41a8be0e298a80816, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.2
