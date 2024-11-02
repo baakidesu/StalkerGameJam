@@ -30,14 +30,14 @@ public class GameManager : MonoBehaviour
             if (!woman.active)
             {
                 woman.SetActive(true);
-                isLookingBack=true;
+                isLookingBack = true;
 
             }
             else
             {
                 Instantiate(womanBehind, woman.transform.position, woman.transform.rotation);
                 woman.SetActive(false);
-                isLookingBack=!isLookingBack;
+                isLookingBack = !isLookingBack;
             }
         }
     }

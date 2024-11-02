@@ -12,7 +12,7 @@ public class LookingBehindWoman : MonoBehaviour
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         StartCoroutine(WomanToggle(2));
     }
-    
+
     void Update()
     {
     }
