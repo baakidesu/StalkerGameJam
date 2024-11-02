@@ -9,6 +9,7 @@ TagManager:
   - TruePoint
   - FalsePoint
   - nokta
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
